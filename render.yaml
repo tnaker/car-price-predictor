@@ -6,4 +6,4 @@ services:
     buildcmd: |
       pip install -r requirements.txt
     startcmd: |
-      uvicorn api:app --host
+      startcmd: uvicorn api:app --host 0.0.0.0 --port 10000
