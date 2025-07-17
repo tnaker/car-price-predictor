@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Car Price Predictor</title>
+</head>
+<body>
+    <h2>Enter the details of the car to predict its price!</h2>
+    <form id="car-form">
+        <label>Year: <input type="number" name="Year" required></label><br>
+        <label>Engine HP: <input type="number" step="0.1" name="Engine_HP" required></label><br>
+        <label>Engine Cylinders: <input type="number" step="0.1" name="Engine_Cylinders" required></label><br>
+        <label>Highway MPG: <input type="number" name="highway_MPG" required></label><br>
+        <label>City MPG: <input type="number" name="city_mpg" required></label><br>
+        <label>Popularity: <input type="number" name="Popularity" required></label><br>
+        <label>Transmission Type: <input type="text" name="Transmission_Type" required></label><br>
+        <label>Driven Wheels: <input type="text" name="Driven_Wheels" required></label><br>
+        <label>Vehicle Size: <input type="text" name="Vehicle_Size" required></label><br>
+        <label>Vehicle Style: <input type="text" name="Vehicle_Style" required></label><br>
+        <label>Engine Fuel Type: <input type="text" name="Engine_Fuel_Type" required></label><br><br>
+        <button type="submit">Predict</button>
+    </form>
+
+    <h3 id="result"></h3>
+
+    <script>
+        document.getElementById('car-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+            const jsonData = {};
+            for (const [key, value] of formData.entries()) {
+                jsonData[key] = isNaN(value) ? value : Number(value);
+            }
+
+            const response = await fetch("http://127.0.0.1:8000/predict_price/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(jsonData)
+            });
+
+            const result = await response.json();
+
+            document.getElementById('result').textContent = response.ok ? `Predicted Price: $${result.predicted_price}` : `Error: ${JSON.stringify(result.detail, null, 2)}`;
+        });
+    </script>
+</body>
+</html>
