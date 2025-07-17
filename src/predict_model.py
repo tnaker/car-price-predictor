@@ -1,6 +1,6 @@
 import joblib
 import os
-from data_processing import preprocess_new_car
+from src.data_processing import preprocess_new_car
 
 def predict_price(new_car: dict) -> float:
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

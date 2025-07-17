@@ -6,7 +6,7 @@ from pydantic import BaseModel
 from src.predict_model import predict_price
 import os
 
-base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+base_dir = os.path.dirname(os.path.abspath(__file__))
 data_path = os.path.join(base_dir, "static")
 
 app = FastAPI()
