@@ -17,7 +17,7 @@ This project is a machine learning-powered API that predicts car prices based on
 
 ## 🧪 Demo
 
-[🌐 Live Demo on Render](https://car-price-api.onrender.com)
+[🌐 Live Demo on Render](https://car-price-predictor-vkjs.onrender.com/)
 
 ## 📁 Project Structure
 
