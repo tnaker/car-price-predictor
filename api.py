@@ -3,7 +3,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
-from predict_model import predict_price
+from src.predict_model import predict_price
 import os
 
 base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
