@@ -21,20 +21,29 @@ This project is a machine learning-powered API that predicts car prices based on
 
 ## 📁 Project Structure
 
-CarPricePrediction/
-├── model/
-│   ├── car_price_model.pkl
-│   └── features.pkl
-├── src/
-│   ├── train_model.py
-│   ├── predict_model.py
-│   └── main.py
-├── static/
-│   └── index.html
-├── render.yaml
-├── requirements.txt
-├── start.sh
-└── README.md  
+.
+└── car-price-predictor/
+    ├── data/
+    │   └── car_price_data_origin.csv
+    ├── model/
+    │   ├── car_price_model.pkl
+    │   └── features.pkl
+    ├── notebook/
+    │   ├── model/
+    │   │   ├── car_price_model.pkl
+    │   │   └── features.pkl
+    │   └── analysis.ipynb
+    ├── src/
+    │   ├── data_processing.py
+    │   ├── main.py
+    │   ├── predict_model.py
+    │   └── train_model.py
+    ├── static/
+    │   └── index.html
+    ├── api.py
+    ├── README.md
+    ├── render.yaml
+    └── requirements.txt
 
 
 ## 📌 Author
