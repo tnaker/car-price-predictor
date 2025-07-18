@@ -21,6 +21,7 @@ This project is a machine learning-powered API that predicts car prices based on
 
 ## 📁 Project Structure
 
+'''
 .
 └── car-price-predictor/
     ├── data/
@@ -44,6 +45,7 @@ This project is a machine learning-powered API that predicts car prices based on
     ├── README.md
     ├── render.yaml
     └── requirements.txt
+'''
 
 
 ## 📌 Author
