@@ -1,6 +1,7 @@
 import joblib
 import os
 from src.data_processing import preprocess_new_car
+import numpy as np
 
 def predict_price(new_car: dict) -> float:
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -16,4 +17,5 @@ def predict_price(new_car: dict) -> float:
 
     # Dự đoán
     predicted_price = model.predict(df_encoded)[0]
-    return round(predicted_price, 2)
+    real_price = np.expm1(predicted_price)  # Chuyển đổi ngược log1p
+    return round(real_price, 2)

@@ -1,50 +1,224 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Car Price Predictor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Định Giá Xe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* GIỮ NGUYÊN CSS ĐẸP CŨ */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 800px; /* Mở rộng chiều ngang để chứa nhiều cột */
+        }
+        h2 { color: #333; margin-bottom: 10px; font-weight: 600; text-align: center; }
+        
+        /* Chia cột lưới (Grid) để form gọn hơn */
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* 2 cột */
+            gap: 15px;
+        }
+
+        .form-group { margin-bottom: 5px; }
+        label { display: block; margin-bottom: 5px; color: #555; font-size: 13px; font-weight: 600; }
+        input, select {
+            width: 100%; padding: 10px; border: 2px solid #eee;
+            border-radius: 8px; font-size: 14px; font-family: 'Poppins', sans-serif;
+        }
+        input:focus, select:focus { border-color: #764ba2; outline: none; }
+
+        button {
+            width: 100%; padding: 15px; margin-top: 20px;
+            background: linear-gradient(to right, #667eea, #764ba2);
+            color: white; border: none; border-radius: 50px;
+            font-size: 16px; font-weight: 600; cursor: pointer;
+            transition: transform 0.2s;
+        }
+        button:hover { transform: scale(1.02); }
+
+        #result {
+            margin-top: 25px; padding: 20px; background-color: #f0f4f8;
+            border-radius: 15px; border-left: 5px solid #764ba2;
+            text-align: center; display: none;
+        }
+        .price-tag { font-size: 32px; color: #2d3748; font-weight: bold; }
+        
+        .section-title {
+            grid-column: 1 / -1; /* Tiêu đề chiếm hết chiều ngang */
+            font-size: 14px; color: #764ba2; margin-top: 10px;
+            border-bottom: 1px solid #eee; padding-bottom: 5px;
+        }
+    </style>
 </head>
 <body>
-    <h2>Enter the details of the car to predict its price!</h2>
-    <form id="car-form">
-        <label>Year: <input type="number" name="Year" required></label><br>
-        <label>Engine HP: <input type="number" step="0.1" name="Engine_HP" required></label><br>
-        <label>Engine Cylinders: <input type="number" step="0.1" name="Engine_Cylinders" required></label><br>
-        <label>Highway MPG: <input type="number" name="highway_MPG" required></label><br>
-        <label>City MPG: <input type="number" name="city_mpg" required></label><br>
-        <label>Popularity: <input type="number" name="Popularity" required></label><br>
-        <label>Transmission Type: <input type="text" name="Transmission_Type" required></label><br>
-        <label>Driven Wheels: <input type="text" name="Driven_Wheels" required></label><br>
-        <label>Vehicle Size: <input type="text" name="Vehicle_Size" required></label><br>
-        <label>Vehicle Style: <input type="text" name="Vehicle_Style" required></label><br>
-        <label>Engine Fuel Type: <input type="text" name="Engine_Fuel_Type" required></label><br><br>
-        <button type="submit">Predict</button>
-    </form>
 
-    <h3 id="result"></h3>
+    <div class="container">
+        <h2>🚗 WEB ĐỊNH GIÁ XE HƠI</h2>
+        <p style="text-align: center; color: #666; margin-bottom: 20px; font-size: 14px;">Nhập đầy đủ thông số kỹ thuật</p>
+
+        <form id="carForm" onsubmit="return false;">
+            <div class="grid-container">
+                
+                <div class="section-title">1. Thông tin chung</div>
+                <div class="form-group">
+                    <label>Hãng xe (Make)</label>
+                    <input type="text" id="Make" value="BMW" placeholder="VD: BMW, Toyota...">
+                </div>
+                <div class="form-group">
+                    <label>Năm sản xuất (Year)</label>
+                    <input type="number" id="Year" value="2011">
+                </div>
+                <div class="form-group">
+                    <label>Độ phổ biến (Popularity)</label>
+                    <input type="number" id="Popularity" value="3916" placeholder="VD: 1000 - 5000">
+                </div>
+
+                <div class="section-title">2. Động cơ & Nhiên liệu</div>
+                <div class="form-group">
+                    <label>Mã lực (Engine HP)</label>
+                    <input type="number" id="Engine_HP" value="300">
+                </div>
+                <div class="form-group">
+                    <label>Số Xi-lanh (Cylinders)</label>
+                    <input type="number" id="Engine_Cylinders" value="6">
+                </div>
+                <div class="form-group">
+                    <label>Loại nhiên liệu</label>
+                    <select id="Engine_Fuel_Type">
+                        <option value="premium unleaded (required)" selected>Premium Unleaded (Required)</option>
+                        <option value="regular unleaded">Regular Unleaded</option>
+                        <option value="premium unleaded (recommended)">Premium Unleaded (Recommended)</option>
+                        <option value="flex-fuel (unleaded/E85)">Flex-fuel (E85)</option>
+                        <option value="diesel">Diesel</option>
+                    </select>
+                </div>
+
+                <div class="section-title">3. Hộp số & Dẫn động</div>
+                <div class="form-group">
+                    <label>Hộp số (Transmission)</label>
+                    <select id="Transmission_Type">
+                        <option value="MANUAL" selected>Số sàn (MANUAL)</option>
+                        <option value="AUTOMATIC">Tự động (AUTOMATIC)</option>
+                        <option value="AUTOMATED_MANUAL">Tự động hóa (AUTOMATED_MANUAL)</option>
+                        <option value="DIRECT_DRIVE">Trực tiếp (DIRECT_DRIVE)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Dẫn động (Driven Wheels)</label>
+                    <select id="Driven_Wheels">
+                        <option value="rear wheel drive" selected>Cầu sau (RWD)</option>
+                        <option value="front wheel drive">Cầu trước (FWD)</option>
+                        <option value="all wheel drive">4 bánh (AWD)</option>
+                        <option value="four wheel drive">4 bánh (4WD)</option>
+                    </select>
+                </div>
+
+                <div class="section-title">4. Kiểu dáng & Tiêu thụ</div>
+                <div class="form-group">
+                    <label>Kích thước xe</label>
+                    <select id="Vehicle_Size">
+                        <option value="Compact" selected>Nhỏ (Compact)</option>
+                        <option value="Midsize">Vừa (Midsize)</option>
+                        <option value="Large">Lớn (Large)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Kiểu dáng xe</label>
+                    <select id="Vehicle_Style">
+                        <option value="Coupe" selected>Coupe (2 cửa)</option>
+                        <option value="Sedan">Sedan (4 cửa)</option>
+                        <option value="SUV">SUV</option>
+                        <option value="Hatchback">Hatchback</option>
+                        <option value="Convertible">Mui trần</option>
+                        <option value="Pickup">Bán tải</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>MPG Cao tốc</label>
+                    <input type="number" id="highway_MPG" value="28">
+                </div>
+                <div class="form-group">
+                    <label>MPG Trong phố</label>
+                    <input type="number" id="city_mpg" value="19">
+                </div>
+
+            </div> <button onclick="duDoanGiaXe()" id="btnPredict">🔮 ĐỊNH GIÁ NGAY</button>
+        </form>
+
+        <div id="result">
+            <div style="font-size: 14px; text-transform: uppercase; color: #a0aec0;">Giá trị ước tính</div>
+            <div class="price-tag" id="priceDisplay">...</div>
+            <div id="msgDisplay">...</div>
+        </div>
+    </div>
 
     <script>
-        document.getElementById('car-form').addEventListener('submit', async function(event) {
-            event.preventDefault();
+        async function duDoanGiaXe() {
+            const btn = document.getElementById("btnPredict");
+            const resultBox = document.getElementById("result");
+            
+            // Hiệu ứng nút bấm
+            btn.innerText = "⏳ Đang phân tích...";
+            btn.disabled = true;
+            resultBox.style.display = "none";
 
-            const formData = new FormData(this);
-            const jsonData = {};
-            for (const [key, value] of formData.entries()) {
-                jsonData[key] = isNaN(value) ? value : Number(value);
+            // Lấy toàn bộ dữ liệu từ form
+            const data = {
+                "Make": document.getElementById("Make").value,
+                "Year": parseInt(document.getElementById("Year").value),
+                "Engine_HP": parseFloat(document.getElementById("Engine_HP").value),
+                "Engine_Cylinders": parseFloat(document.getElementById("Engine_Cylinders").value),
+                "highway_MPG": parseInt(document.getElementById("highway_MPG").value),
+                "city_mpg": parseInt(document.getElementById("city_mpg").value),
+                "Popularity": parseInt(document.getElementById("Popularity").value),
+                
+                // Các giá trị lấy từ Dropdown (Select)
+                "Transmission_Type": document.getElementById("Transmission_Type").value,
+                "Driven_Wheels": document.getElementById("Driven_Wheels").value,
+                "Vehicle_Size": document.getElementById("Vehicle_Size").value,
+                "Vehicle_Style": document.getElementById("Vehicle_Style").value,
+                "Engine_Fuel_Type": document.getElementById("Engine_Fuel_Type").value
+            };
+
+            try {
+                // Gọi API
+                const response = await fetch("/predict_price/", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                // Hiển thị kết quả
+                resultBox.style.display = "block";
+                const formattedPrice = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(result.predicted_price);
+                document.getElementById("priceDisplay").innerText = formattedPrice;
+                document.getElementById("msgDisplay").innerText = result.message;
+
+            } catch (error) {
+                alert("Lỗi kết nối! Kiểm tra xem Server chạy chưa?");
+            } finally {
+                btn.innerText = "🔮 ĐỊNH GIÁ NGAY";
+                btn.disabled = false;
             }
-
-            const response = await fetch("http://127.0.0.1:8000/predict_price/", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(jsonData)
-            });
-
-            const result = await response.json();
-
-            document.getElementById('result').textContent = response.ok ? `Predicted Price: $${result.predicted_price}` : `Error: ${JSON.stringify(result.detail, null, 2)}`;
-        });
+        }
     </script>
 </body>
 </html>

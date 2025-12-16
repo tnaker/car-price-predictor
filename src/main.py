@@ -1,17 +1,17 @@
 from predict_model import predict_price
 
 new_car = {
-    'Year': 2020,
-    'Engine HP': 300.0,
+    'Year': 2011,
+    'Engine HP': 335.0,
     'Engine Cylinders': 6.0,
-    'highway MPG': 30,
-    'city mpg': 22,
-    'Popularity': 5000,
-    'Transmission Type': 'AUTOMATIC',
-    'Driven_Wheels': 'front wheel drive',
-    'Vehicle Size': 'Midsize',
-    'Vehicle Style': 'Sedan',
-    'Engine Fuel Type': 'regular unleaded'
+    'highway MPG': 26,
+    'city mpg': 19,
+    'Popularity': 3916,
+    'Transmission Type': 'MANUAL',
+    'Driven_Wheels': 'rear wheel drive',
+    'Vehicle Size': 'Compact',
+    'Vehicle Style': 'Coupe',
+    'Engine Fuel Type': 'premium unleaded (required)'
 }
 
 price = predict_price(new_car)

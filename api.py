@@ -47,4 +47,7 @@ def predict_car_price(car: CarData):
     }
 
     price = predict_price(input_data)
-    return {"predicted_price": price}
+    return {
+        "predicted_price": price,
+        "message": f"Dự đoán chiếc xe này có giá khoảng {price} USD"
+    }

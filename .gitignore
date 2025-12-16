@@ -1,0 +1,12 @@
+# Bỏ qua môi trường ảo
+.venv/
+venv/
+env/
+
+# Bỏ qua file rác của Python
+__pycache__/
+*.pyc
+
+# Bỏ qua file cấu hình môi trường (nếu có)
+.env
+.DS_Store
