@@ -1,4 +1,4 @@
-from predict_model import predict_price
+from src.predict_model import predict_price
 
 new_car = {
     'Year': 2011,
